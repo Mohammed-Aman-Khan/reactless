@@ -503,7 +503,7 @@ npm run build
 
 ## 📄 License
 
-MIT © 2024 Reactless Contributors
+MIT © 2025 Reactless Contributors
 
 ---
 
