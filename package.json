@@ -7,7 +7,8 @@
   ],
   "scripts": {
     "dev:vite": "turbo run dev --filter vite-benchmark",
-    "build:vite": "turbo run build --filter vite-benchmark"
+    "build:vite": "turbo run build --filter vite-benchmark",
+    "build": "turbo run build"
   },
   "devDependencies": {
     "typescript": "5.9.3"

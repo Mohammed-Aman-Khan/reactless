@@ -1,6 +1,5 @@
 import type { Plugin } from "vite";
-import { transformSync } from "@babel/core";
-import reactlessBabelPlugin from "@reactless/babel-plugin";
+import { transform } from "@reactless/core/compiler";
 
 export interface ReactlessViteOptions {
   include?: string | RegExp | Array<string | RegExp>;
@@ -13,24 +12,28 @@ export function reactless(options: ReactlessViteOptions = {}): Plugin {
     enforce: "pre",
 
     transform(code, id) {
+      // Only process JSX/TSX files
       if (!/\.(t|j)sx?$/.test(id)) return null;
+
+      // Skip node_modules
       if (id.includes("node_modules")) return null;
 
-      const result = transformSync(code, {
-        filename: id,
-        plugins: [[reactlessBabelPlugin]],
-        parserOpts: {
-          plugins: ["jsx", "typescript"],
-        },
-        sourceMaps: true,
-      });
+      try {
+        // Use Oxc-powered transform from core package
+        const transformedCode = transform(code);
 
-      if (!result) return null;
+        // Only return if transformation actually happened
+        if (transformedCode === code) return null;
 
-      return {
-        code: result.code || code,
-        map: result.map,
-      };
+        return {
+          code: transformedCode,
+          map: null, // TODO: Add source map support
+        };
+      } catch (error) {
+        // If transformation fails, return original code
+        console.error(`[reactless] Failed to transform ${id}:`, error);
+        return null;
+      }
     },
   };
 }
