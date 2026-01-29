@@ -1,0 +1,35 @@
+{
+  "name": "@reactless/babel-plugin",
+  "version": "0.0.1",
+  "description": "Babel plugin for Reactless automatic JSX optimization",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "npm run build -- --watch",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@reactless/core": "workspace:*",
+    "@babel/core": "^7.28.6",
+    "@babel/types": "^7.28.6"
+  },
+  "devDependencies": {
+    "@types/babel__core": "^7.20.5",
+    "@types/node": "^25.0.10",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
